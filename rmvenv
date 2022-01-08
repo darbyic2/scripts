@@ -1,0 +1,42 @@
+#!/bin/bash
+##########################################################################
+# Wrapper script to remove a python3 virtual environemnt (and optionally #
+# the project too) using the "python3 venv utility.                      #
+##########################################################################
+
+usage() {
+  echo "Usage:  source rmvenv projectName"
+}
+
+if [ "${BASH_SOURCE[0]}" != "${0}" ]; then
+  # echo "script ${BASH_SOURCE[0]} is being sourced ..."
+  # echo P1=$1, P2=$2
+  
+  if [ -z "$1" ]; then
+    echo "Missing required project name argument..."
+    usage
+  else
+  
+    if [ -z "$VENV_PROJECTS" ]; then
+      export VENV_PROJECTS=$HOME/venv_projects
+    fi
+  
+    cd $VENV_PROJECTS/$1
+    
+    if [ -n "$VIRTUAL_ENV" ]; then
+      deactivate
+    fi
+    
+    rm -Rf .venv
+    
+    if [ "$2" == "--remove-project" ]; then
+      echo "Removing complete project"
+      cd $VENV_PROJECTS
+      rm -Rf $1
+    fi
+  fi
+  
+else
+  echo "script NOT being sourced ..."
+  usage
+fi

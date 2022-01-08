@@ -1,0 +1,39 @@
+#!/bin/bash
+######################################################################
+# Wrapper script to create a new python3 virtual environemnt project #
+# using the "python3 venv utility.                                   #
+######################################################################
+
+usage() {
+  echo "Usage:  source mkvenv projectName"
+}
+
+if [ "${BASH_SOURCE[0]}" != "${0}" ]; then
+  # echo "script ${BASH_SOURCE[0]} is being sourced ..."
+  # echo P1=$1, P2=$2
+  
+  if [ -z "$1" ]; then
+    echo "Missing required project name argument..."
+    usage
+  else
+    # Make sure that the projects root directory is set
+    if [ -z "$VENV_PROJECTS" ]; then
+      export VENV_PROJECTS=$HOME/venv_projects
+    fi
+  
+    # Make sure no existing virtual environment is active
+    if [ -n "$VIRTUAL_ENV" ]; then
+      deactivate
+    fi
+    
+    # Finally create the project directory + environment & activate it
+    mkdir -p $VENV_PROJECTS/$1
+    cd $VENV_PROJECTS/$1
+    python3 -m venv .venv
+    source .venv/bin/activate
+  fi
+  
+else
+  echo "script NOT being sourced ..."
+  usage
+fi
