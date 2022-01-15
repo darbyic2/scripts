@@ -31,11 +31,11 @@ if [ "${BASH_SOURCE[0]}" != "${0}" ]; then
       source .venv/bin/activate
       python -m pip install -U numpy
       echo "Setting up OpenCV..."
-      sudo cp /usr/lib/python3/dist-packages/xxxcv2*.so .venv/lib/python3.9/site-packages/
+      python -m pip install -U $HOME/dist/opencv*.whl
       if [ $? -eq 0 ]; then
       echo "OpenCV setup complete."
       else
-        echo "Failed to find cv2*.so file. Check path."
+        echo "Failed to find ~/dist/opencv*.so file. Check path."
       fi
     else
       echo "Project must already exist and have a venv environment"
