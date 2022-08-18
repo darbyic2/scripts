@@ -1,0 +1,48 @@
+#!/bin/bash
+######################################################################
+# Utility script to add cv2 & numpy to existing venv project.        #
+######################################################################
+
+usage() {
+  echo "Usage:  source mkvenv projectName"
+}
+
+if [ "${BASH_SOURCE[0]}" != "${0}" ]; then
+  # echo "script ${BASH_SOURCE[0]} is being sourced ..."
+  # echo P1=$1, P2=$2
+  
+  if [ -z "$1" ]; then
+    echo "Missing required project name argument..."
+    usage
+  else
+    # Make sure that the projects root directory is set
+    if [ -z "$VENV_PROJECTS" ]; then
+      export VENV_PROJECTS=$HOME/venv_projects
+    fi
+  
+    # Make sure no existing virtual environment is active
+    if [ -n "$VIRTUAL_ENV" ]; then
+      deactivate
+    fi
+    
+    # Make sure that venv project already exists
+    if [ -e "$VENV_PROJECTS/$1/.venv/bin/activate" ]; then
+      cd $VENV_PROJECTS/$1
+      source .venv/bin/activate
+      python -m pip install -U numpy
+      echo "Setting up OpenCV..."
+      python -m pip install -U $HOME/dist/opencv*.whl
+      if [ $? -eq 0 ]; then
+      echo "OpenCV setup complete."
+      else
+        echo "Failed to find ~/dist/opencv*.so file. Check path."
+      fi
+    else
+      echo "Project must already exist and have a venv environment"
+      usage
+    fi
+  fi
+else
+  echo "script NOT being sourced ..."
+  usage
+fi
