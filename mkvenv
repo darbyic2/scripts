@@ -31,6 +31,8 @@ if [ "${BASH_SOURCE[0]}" != "${0}" ]; then
     cd $VENV_PROJECTS/$1
     python3 -m venv .venv
     source .venv/bin/activate
+    cp ../.gitignore_python_template ./.gitignore
+    git init
   fi
   
 else
