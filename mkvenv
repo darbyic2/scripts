@@ -5,7 +5,7 @@
 ######################################################################
 
 usage() {
-  echo "Usage:  source mkvenv projectName"
+  echo "Usage:  source mkvenv projectName [ --opencv ]"
 }
 
 if [ "${BASH_SOURCE[0]}" != "${0}" ]; then
@@ -31,6 +31,18 @@ if [ "${BASH_SOURCE[0]}" != "${0}" ]; then
     cd $VENV_PROJECTS/$1
     python3 -m venv .venv
     source .venv/bin/activate
+
+    echo "Updating pip package manager"
+    python -m pip install --upgrade pip
+
+    if [ "$2" == "--opencv" ]; then
+      echo "Installing numpy package"
+      python -m pip install numpy
+
+      echo "Linking to cv2.so package"
+      ln -s /usr/local/lib/python3.10/site-packages/cv2/python-3.10/cv2.so .venv/lib/python3.10/site-packages/cv2.so
+    fi
+    
     cp ../.gitignore_python_template ./.gitignore
     git init
   fi
