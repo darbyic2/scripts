@@ -5,7 +5,7 @@
 ##########################################################################
 
 usage() {
-  echo "Usage:  source rmvenv projectName"
+  echo "Usage:  source rmvenv projectName [ --remove-project ]"
 }
 
 if [ "${BASH_SOURCE[0]}" != "${0}" ]; then
