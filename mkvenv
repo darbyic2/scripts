@@ -29,7 +29,7 @@ if [ "${BASH_SOURCE[0]}" != "${0}" ]; then
     # Finally create the project directory + environment & activate it
     mkdir -p $VENV_PROJECTS/$1
     cd $VENV_PROJECTS/$1
-    nkdir temp
+    mkdir temp
     python3 -m venv .venv
     source .venv/bin/activate
 
