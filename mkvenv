@@ -36,6 +36,9 @@ if [ "${BASH_SOURCE[0]}" != "${0}" ]; then
     echo "Updating pip package manager"
     python -m pip install --upgrade pip
 
+    echo "Updating wheel package"
+    python -m pip install --upgrade wheel
+
     if [ "$2" == "--opencv" ]; then
       echo "Installing numpy package"
       python -m pip install numpy
