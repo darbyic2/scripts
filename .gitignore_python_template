@@ -253,5 +253,10 @@ fabric.properties
 .idea/caches/build_file_checksums.ser
 
 # Project specific excludes
-temp/
+temp
+tmp
+build
+dist
+opt
+usr
 
