@@ -30,7 +30,9 @@ if [ "${BASH_SOURCE[0]}" != "${0}" ]; then
     mkdir -p $VENV_PROJECTS/$1
     cd $VENV_PROJECTS/$1
     mkdir temp
-    python3 -m venv .venv
+    mkdir src
+    mkdir tests
+    python3.11 -m venv .venv
     source .venv/bin/activate
 
     echo "Updating pip package manager"
@@ -38,6 +40,9 @@ if [ "${BASH_SOURCE[0]}" != "${0}" ]; then
 
     echo "Updating wheel package"
     python -m pip install --upgrade wheel
+
+    echo "Installing pytest and pytest-cov"
+    python -m pip install pytest pytest-cov
 
     if [ "$2" == "--opencv" ]; then
       echo "Installing numpy package"
@@ -47,8 +52,13 @@ if [ "${BASH_SOURCE[0]}" != "${0}" ]; then
       ln -s /usr/local/lib/python3.10/site-packages/cv2/python-3.10/cv2.so .venv/lib/python3.10/site-packages/cv2.so
     fi
     
+    cp ../README.md ./README.md
+    cp ../LICENSE_mit ./LICENSE
     cp ../.gitignore_python_template ./.gitignore
     git init
+
+    echo "Creating requirements.txt"
+    python -m pip freeze >requirements.txt
   fi
   
 else
