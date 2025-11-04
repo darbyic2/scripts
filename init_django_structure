@@ -1,0 +1,68 @@
+############################################################
+# Wrapper script to create a new django project structure  #
+# complete with virtual python environment and git repo.   #
+# Exits with virtual environment activated.                #
+# Any currently active virtual environment is deactivated. #
+############################################################
+
+usage() {
+  echo "Usage:  source init_django_structure projectName"
+}
+
+# Ensure that script is beng sourced - required to run sub-scripts
+if [ "${BASH_SOURCE[0]}" != "${0}" ]; then
+
+  # Make sure no existing virtual environment is active
+  if [ -n "$VIRTUAL_ENV" ]; then
+    deactivate
+  fi
+
+  # Ensure that a project name has been given in P1
+  if [ -z "$1" ]; then
+    echo "Missing required project name as 1st argument"
+    usage
+
+  else
+    # All projects will be in ~/Desktop/code directory
+    # so ensure that this base directory exists.
+    cd ~/Desktop
+    if [ ! -d "code" ]; then
+      mkdir code
+    fi
+
+    # Ensure that this project name doesn't already exist
+    if [ -d "code/$1" ]; then
+      echo "A project already exists with the name '$1'"
+
+    else
+      # Create project root directory and step into it
+      mkdir code/$1
+      cd code/$1
+
+      # Create common project storage for templates and css files
+      mkdir static
+      mkdir static/css
+      mkdir templates
+
+      # Initialise a local git repository with a default ignore template
+      git init
+      cp ../.gitignore .
+
+      # Initialise a virtual python environment and activate it
+      python -m venv .venv
+      source .venv/bin/activate
+      python -m pip install --upgrade pip
+      python -m pip install django~=5.0.0
+      python -m pip install black
+
+      # Create the initial django project files
+      # and create an app to put login/registration logic
+      django-admin startproject django_project .
+      python manage.py startapp accounts
+    fi
+  fi
+
+else
+  echo "script NOT being sourced ..."
+  usage
+fi
