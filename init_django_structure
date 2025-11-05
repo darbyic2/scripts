@@ -42,8 +42,16 @@ if [ "${BASH_SOURCE[0]}" != "${0}" ]; then
       # Create common project storage for templates and css files
       mkdir static
       mkdir static/css
+      mkdir static/js
+      mkdir static/img
       mkdir templates
       mkdir templates/registration
+
+      # Trick git into recording some key empty folders
+      touch static/css/.keep
+      touch static/js/.keep
+      touch static/img/.keep
+      touch templates/registration/.keep
 
       # Initialise a local git repository with a default ignore template
       git init
