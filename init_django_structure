@@ -43,6 +43,7 @@ if [ "${BASH_SOURCE[0]}" != "${0}" ]; then
       mkdir static
       mkdir static/css
       mkdir templates
+      mkdir templates/registration
 
       # Initialise a local git repository with a default ignore template
       git init
